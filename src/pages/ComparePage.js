@@ -1,5 +1,4 @@
-import jsPDF from "jspdf";
-import "jspdf-autotable";
+
 import React, { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import {
@@ -116,30 +115,5 @@ function ComparePage() {
     </div>
   );
 }
-
-const exportToPDF = () => {
-  const doc = new jsPDF();
-
-  doc.setFontSize(18);
-  doc.text("Procurement Price Comparison Report", 14, 22);
-  doc.setFontSize(12);
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, 14, 30);
-
-  const tableData = marketData.map((item) => [
-    item.name,
-    item.marketPrice,
-    item.procurementPrice,
-    item.unit,
-    evaluate(item.marketPrice, item.procurementPrice),
-  ]);
-
-  doc.autoTable({
-    head: [["Item", "Market Price", "Procurement Price", "Unit", "Status"]],
-    body: tableData,
-    startY: 40,
-  });
-
-  doc.save("price_comparison_report.pdf");
-};
 
 export default ComparePage;
